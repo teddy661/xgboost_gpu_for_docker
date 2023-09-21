@@ -1,6 +1,6 @@
 FROM  nvidia/cuda:11.8.0-cudnn8-devel-rockylinux8 AS build
 SHELL ["/bin/bash", "-c"]
-ENV PY_VERSION=3.11.4
+ENV PY_VERSION=3.11.5
 RUN dnf install epel-release -y
 RUN /usr/bin/crb enable
 RUN dnf update --disablerepo=cuda -y
@@ -36,8 +36,8 @@ COPY --from=ebrown/python:3.11 /opt/python /opt/python
 ENV LD_LIBRARY_PATH=/opt/python/py311/lib:${LD_LIBRARY_PATH}
 ENV PATH=/opt/python/py311/bin:${PATH}
 WORKDIR /tmp/bxgboost
-RUN wget https://github.com/dmlc/xgboost/releases/download/v1.7.5/xgboost.tar.gz
-RUN tar -xf xgboost.tar.gz
+RUN wget https://github.com/dmlc/xgboost/releases/download/v2.0.0/xgboost-2.0.0.tar.gz
+RUN tar -xf xgboost-2.0.0.tar.gz
 WORKDIR /tmp/bxgboost/xgboost
 RUN mkdir build
 WORKDIR /tmp/bxgboost/xgboost/build
