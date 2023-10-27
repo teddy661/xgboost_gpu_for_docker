@@ -33,10 +33,8 @@ RUN dnf install \
                 gdbm-devel gdbm -y
 WORKDIR /tmp/bxgboost
 ARG XGBOOST_VERSION=2.0.1
-RUN wget https://github.com/dmlc/xgboost/releases/download/v${XGBOOST_VERSION}/xgboost-${XGBOOST_VERSION}.tar.gz
-RUN tar -xf xgboost-${XGBOOST_VERSION}.tar.gz
-WORKDIR /tmp/bxgboost/xgboost
-RUN mkdir build
+RUN wget -qO- https://github.com/dmlc/xgboost/releases/download/v${XGBOOST_VERSION}/xgboost-${XGBOOST_VERSION}.tar.gz | tar zvx
+RUN mkdir /tmp/bxgboost/xgboost/build
 WORKDIR /tmp/bxgboost/xgboost/build
 RUN source scl_source enable gcc-toolset-11 && cmake .. -DUSE_CUDA=ON -DBUILD_WITH_CUDA_CUB=ON
 RUN source scl_source enable gcc-toolset-11 && make -j 8
