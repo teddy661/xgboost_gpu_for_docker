@@ -1,6 +1,5 @@
-FROM  nvidia/cuda:11.8.0-cudnn8-devel-rockylinux8 AS build
+FROM ebrown/python:3.11 as python
 SHELL ["/bin/bash", "-c"]
-ENV PY_VERSION=3.11.5
 RUN dnf install epel-release -y
 RUN /usr/bin/crb enable
 RUN dnf update --disablerepo=cuda -y
@@ -32,16 +31,13 @@ RUN dnf install \
                 asciidoc \
                 docbook2X \
                 gdbm-devel gdbm -y
-COPY --from=ebrown/python:3.11 /opt/python /opt/python
-ENV LD_LIBRARY_PATH=/opt/python/py311/lib:${LD_LIBRARY_PATH}
-ENV PATH=/opt/python/py311/bin:${PATH}
 WORKDIR /tmp/bxgboost
-RUN wget https://github.com/dmlc/xgboost/releases/download/v2.0.0/xgboost-2.0.0.tar.gz
-RUN tar -xf xgboost-2.0.0.tar.gz
+ARG XGBOOST_VERSION=2.0.1
+RUN wget https://github.com/dmlc/xgboost/releases/download/v${XGBOOST_VERSION}/xgboost-${XGBOOST_VERSION}.tar.gz
+RUN tar -xf xgboost-${XGBOOST_VERSION}.tar.gz
 WORKDIR /tmp/bxgboost/xgboost
 RUN mkdir build
 WORKDIR /tmp/bxgboost/xgboost/build
 RUN source scl_source enable gcc-toolset-11 && cmake .. -DUSE_CUDA=ON -DBUILD_WITH_CUDA_CUB=ON
 RUN source scl_source enable gcc-toolset-11 && make -j 8
 WORKDIR /tmp/bxgboost/xgboost/python-package
-RUN python3 setup.py bdist_wheel 
