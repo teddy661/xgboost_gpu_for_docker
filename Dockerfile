@@ -39,3 +39,4 @@ WORKDIR /tmp/bxgboost/xgboost/build
 RUN source scl_source enable gcc-toolset-11 && cmake .. -DUSE_CUDA=ON -DBUILD_WITH_CUDA_CUB=ON
 RUN source scl_source enable gcc-toolset-11 && make -j 8
 WORKDIR /tmp/bxgboost/xgboost/python-package
+RUN pip wheel --no-deps -v .
