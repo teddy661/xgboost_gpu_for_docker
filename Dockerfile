@@ -32,7 +32,7 @@ RUN dnf install \
                 docbook2X \
                 gdbm-devel gdbm -y
 WORKDIR /tmp/bxgboost
-ARG XGBOOST_VERSION=2.0.1
+ARG XGBOOST_VERSION=2.1.0
 RUN wget -qO- https://github.com/dmlc/xgboost/releases/download/v${XGBOOST_VERSION}/xgboost-${XGBOOST_VERSION}.tar.gz | tar zvx
 RUN mkdir /tmp/bxgboost/xgboost/build
 WORKDIR /tmp/bxgboost/xgboost/build
