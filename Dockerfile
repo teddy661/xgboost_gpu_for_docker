@@ -33,7 +33,7 @@ RUN dnf install \
                 gdbm \
                 -y
 WORKDIR /tmp/bxgboost
-ARG XGBOOST_VERSION=3.0.0
+ARG XGBOOST_VERSION=3.0.2
 RUN wget -qO- https://github.com/dmlc/xgboost/releases/download/v${XGBOOST_VERSION}/xgboost-src-${XGBOOST_VERSION}.tar.gz | tar zvx
 RUN mkdir /tmp/bxgboost/xgboost/build
 WORKDIR /tmp/bxgboost/xgboost/build
@@ -41,3 +41,4 @@ RUN source scl_source enable gcc-toolset-12 && cmake .. -DUSE_CUDA=ON -DBUILD_WI
 RUN source scl_source enable gcc-toolset-12 && make -j 8
 WORKDIR /tmp/bxgboost/xgboost/python-package
 RUN pip wheel --no-deps -v .
+RUN pip install .
