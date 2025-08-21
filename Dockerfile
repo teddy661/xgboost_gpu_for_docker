@@ -33,7 +33,7 @@ RUN dnf install \
                 gdbm \
                 -y
 WORKDIR /tmp/bxgboost
-ARG XGBOOST_VERSION=3.0.2
+ARG XGBOOST_VERSION=3.0.4
 RUN wget -qO- https://github.com/dmlc/xgboost/releases/download/v${XGBOOST_VERSION}/xgboost-src-${XGBOOST_VERSION}.tar.gz | tar zvx
 RUN mkdir /tmp/bxgboost/xgboost/build
 WORKDIR /tmp/bxgboost/xgboost/build
